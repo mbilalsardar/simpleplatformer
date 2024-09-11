@@ -126,13 +126,16 @@ end
 
 function love.update(dt)
     if not isPaused then
-        -- Update timer
-        currentTime = currentTime + dt
+      
 
         -- Player movement
         if love.keyboard.isDown('left') then
+            -- Update timer
+            -- currentTime = currentTime + dt
             player.x = player.x - player.speed * dt
         elseif love.keyboard.isDown('right') then
+            -- Update timer
+            currentTime = currentTime + dt
             player.x = player.x + player.speed * dt
         end
 
