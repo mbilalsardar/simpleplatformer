@@ -11,3 +11,5 @@ really liked the framework, its barebones but i have seen people creating some a
 
 Claude 3 coding skills were very impressive, the code generated barely had bugs which i was able to resolve easily. 
 
+
+![image](https://github.com/user-attachments/assets/854d5091-ce1c-44bf-8ef4-6e317b75dabe)
