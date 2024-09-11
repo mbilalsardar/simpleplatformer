@@ -203,7 +203,9 @@ function love.draw()
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("Time: " .. string.format("%.2f", currentTime), 10, 10)
     love.graphics.print("High Score: " .. string.format("%.2f", highScore), 10, 30)
-    love.graphics.print("Jumps: " .. player.jumpCount .. "/" .. player.maxJumps, 10, 50)
+    -- love.graphics.print("Jumps: " .. player.jumpCount .. "/" .. player.maxJumps, 10, 50)
+    love.graphics.print("Use arrow keys to move and space to jump, press again to double jump", 10, 50)
+    love.graphics.print("Press P to pause", 10, screenHeight - 30)
 
     -- Display pause message if paused
     if isPaused then
