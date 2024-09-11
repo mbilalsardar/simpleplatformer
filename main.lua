@@ -24,7 +24,7 @@ local cameraX = 0
 local cameraSpeed = 5
 
 local minPlatformDistance = 100
-local maxPlatformDistance = 300
+local maxPlatformDistance = 250
 local minPlatformWidth = 100
 local maxPlatformWidth = 300
 local minPlatformY = 200
