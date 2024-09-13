@@ -35,6 +35,28 @@ local currentTime = 0
 local highScore = 0
 local isPaused = false
 
+local Coin = {}
+local coins = {}
+local totalCoin = 0
+Coin.__index = Coin
+
+
+function Coin:new(x, y)
+    local instance = setmetatable({}, Coin)
+    instance.x = x
+    instance.y = y
+    instance.width = 10
+    instance.height = 10
+    instance.value = 1 -- default coin value
+    return instance
+end
+
+local function generateCoin()
+    local x = love.math.random(0, screenWidth)
+    local y = love.math.random(0, screenHeight)
+    return Coin:new(x, y)
+end
+
 local function generatePlatform(startX)
     return {
         x = startX,
@@ -75,7 +97,7 @@ local function checkCollision(player, platform)
     return player.x < platform.x + platform.width and
         player.x + player.width > platform.x and
         playerBottom <= platformTop and
-        playerBottom + player.yVelocity * love.timer.getDelta() >= platformTop    -- Checking player's landing trajectory
+        playerBottom + player.yVelocity * love.timer.getDelta() >= platformTop -- Checking player's landing trajectory
 end
 
 local function loadHighScore()
@@ -120,14 +142,17 @@ end
 
 function love.load()
     love.window.setMode(screenWidth, screenHeight)
+
+    for i = 1, 10 do
+        table.insert(coins, generateCoin())
+    end
+
     loadHighScore()
     resetGame()
 end
 
 function love.update(dt)
     if not isPaused then
-      
-
         -- Player movement
         if love.keyboard.isDown('left') then
             -- Update timer
@@ -158,6 +183,18 @@ function love.update(dt)
         end
         if not onGround then
             player.y = newY
+        end
+
+        local coins = {} -- table to store Coin objects
+
+        -- Check for collisions with Coin objects
+        for i, coin in ipairs(coins) do
+            if checkCollision(player, coin) then
+                -- Increment totalCoin score
+                totalCoin = totalCoin + coin.value
+                -- Remove the Coin object from the game world
+                table.remove(coins, i)
+            end
         end
 
 
@@ -209,6 +246,12 @@ function love.draw()
     -- love.graphics.print("Jumps: " .. player.jumpCount .. "/" .. player.maxJumps, 10, 50)
     love.graphics.print("Use arrow keys to move and space to jump, press again to double jump", 10, 50)
     love.graphics.print("Press P to pause", 10, screenHeight - 30)
+
+    -- Draw Coin objects
+    for i, coin in ipairs(coins) do
+        love.graphics.rectangle("fill", coin.x, coin.y, coin.width, coin.height)
+    end
+
 
     -- Display pause message if paused
     if isPaused then
